@@ -38,7 +38,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-    res.status(200).render('index'); //改寫成ejs套用的寫法 後面為引入的頁面可以加.ejs副檔名
+    res.status(200).render('index',{
+        pageTitle: 'Book Your Books online' //定義引用文字的變數寫入字串ejs檔案就可以接收使用
+    }); //改寫成ejs套用的寫法 後面為引入的頁面可以加.ejs副檔名
     // res.status(200).sendFile(path.join(__dirname, 'views', 'index.html')); //原生寫法
 });
 app.get('/login', (req, res) => {
