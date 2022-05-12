@@ -20,6 +20,9 @@ const app = express();
 
 
 
+app.set('view engine', 'ejs'); //設定使用的面板引擎
+app.set('views', 'views');//views的資料夾 後面是選用的資料夾名稱
+
 app.use((req, res, next) => {
 	console.log('Hello!');
     next(); //自己寫的因為程式不知道何時要中斷所以要加next
@@ -35,10 +38,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'views', 'index.html')); //原生寫法
+    res.status(200).render('index'); //改寫成ejs套用的寫法 後面為引入的頁面可以加.ejs副檔名
+    // res.status(200).sendFile(path.join(__dirname, 'views', 'index.html')); //原生寫法
 });
 app.get('/login', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'views', 'login.html'));
+    res.status(200).render('login');
+    // res.status(200).sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
 app.post('/login', (req, res) => {
@@ -50,7 +55,8 @@ app.post('/login', (req, res) => {
     }
 });
 app.get('/*', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, 'views', '404notFound.html'));
+    res.status(404).render('404notFound');
+    // res.status(200).sendFile(path.join(__dirname, 'views', '404notFound.html'));
 });
 app.listen(3000, () => {
 	console.log('running server on port 3000');
